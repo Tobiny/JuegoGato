@@ -6,8 +6,9 @@ public class Gato{
                                  {' ', '|', ' ', '|', ' '},
                                  {'-', '+', '-', '+', '-'},
                                  {' ', '|', ' ', '|', ' '}};
+        imprimirTablero(tableroJuego);
     }
-    public static void imprimirTablero(){
+    public static void imprimirTablero(char[][] tableroJuego){
         for (char[] fila : tableroJuego) {
             for (char i : fila) {
                 System.out.print(i);
