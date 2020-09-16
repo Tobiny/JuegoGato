@@ -1,6 +1,11 @@
 import java.util.*;
 
 public class Gato{
+    // Utilizamos una lista de arreglos para facilitar la evaluación de la victoria
+    // o derrota de cada jugador o de la computadora, así cómo también para facilitar
+    // la manipulación de cada posición dada.
+    static ArrayList<Integer> posicionesJugador = new ArrayList<Integer>();
+    static ArrayList<Integer> posicionesCpu = new ArrayList<Integer>();
     public static void main(String[] args) {
         char[][] tableroJuego = {{' ', '|', ' ', '|', ' '},
                                  {'-', '+', '-', '+', '-'},
@@ -10,17 +15,20 @@ public class Gato{
 
         imprimirTablero(tableroJuego);
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Ingrese la posición a seleccionar (1 al 9): ");
-        int posJugador = sc.nextInt();
-
-        asignarPieza(tableroJuego, posJugador, "jugador");
-
-        Random aleatorio = new Random();
-        int posCpu = aleatorio.nextInt(9) + 1;
-        asignarPieza(tableroJuego, posCpu, "cpu");
-
-        imprimirTablero(tableroJuego);
+        while (true) {
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Ingrese la posición a seleccionar (1 al 9): ");
+            int posJugador = sc.nextInt();
+    
+            asignarPieza(tableroJuego, posJugador, "jugador");
+    
+            Random aleatorio = new Random();
+            int posCpu = aleatorio.nextInt(9) + 1;
+            asignarPieza(tableroJuego, posCpu, "cpu");
+    
+            imprimirTablero(tableroJuego);
+        }
+ 
 
     }
     //Método para imprimir el tablero de juego
@@ -34,7 +42,6 @@ public class Gato{
     }
     //Método para asignar la pieza a la posición correspondiente
     public static void asignarPieza(char[][] tableroJuego, int pos, String usuario){
-        
         char simbolo = ' ';
         if(usuario.equals("jugador"))
             simbolo = 'X';
@@ -71,5 +78,21 @@ public class Gato{
             default:
                 break;
         }
+    }
+    public static String revisarGanador(){
+        // En este caso estamos utilizando listas para facilitarnos 
+        // la evaluación de cada caso
+        List filaTop = Arrays.asList(1, 2, 3);
+        List filaMid = Arrays.asList(4, 5, 6);
+        List filaBot = Arrays.asList(7, 8, 9);
+        List colIzq = Arrays.asList(1, 4, 7);
+        List colMid = Arrays.asList(2, 5, 8);
+        List colDer = Arrays.asList(3, 6, 9);
+        List diagonal1 = Arrays.asList(1, 5, 9);
+        List diagonal2 = Arrays.asList(7, 5, 3);
+
+        List<List> condicionesDeVictoria = new ArrayList<List>();
+
+        return "";
     }
 }
