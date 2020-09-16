@@ -12,36 +12,7 @@ public class Gato{
         System.out.print("Ingrese la posición a seleccionar (1 al 9): ");
         int pos = sc.nextInt();
 
-        switch(pos){
-            case 1:
-                tableroJuego[0][0] = 'X';
-                break;
-            case 2:
-                tableroJuego[0][2] = 'X';
-                break;
-            case 3:
-                tableroJuego[0][4] = 'X';
-                break;
-            case 4:
-                tableroJuego[2][0] = 'X';
-                break;
-            case 5:
-                tableroJuego[2][2] = 'X';
-                break;
-            case 6:
-                tableroJuego[2][4] = 'X';
-                break;
-            case 7:
-                tableroJuego[4][0] = 'X';
-                break;
-            case 8:
-                tableroJuego[4][2] = 'X';
-                break;
-            case 9:
-                tableroJuego[4][4] = 'X';
-                break;
-            
-        }
+        
 
     }
     public static void imprimirTablero(char[][] tableroJuego){
@@ -50,6 +21,46 @@ public class Gato{
                 System.out.print(i);
             }
             System.out.println();
+        }
+    }
+
+    public static void asignarPieza(char[][] tableroJuego, int pos, String usuario){
+        
+        char simbolo = 'X';
+        if(usuario.equals("jugador"))
+            simbolo = 'X';
+        else if(usuario.equals("cpu"))
+            simbolo = 'O';
+        switch(pos){
+            case 1:
+                tableroJuego[0][0] = simbolo;
+                break;
+            case 2:
+                tableroJuego[0][2] = simbolo;
+                break;
+            case 3:
+                tableroJuego[0][4] = simbolo;
+                break;
+            case 4:
+                tableroJuego[2][0] = simbolo;
+                break;
+            case 5:
+                tableroJuego[2][2] = simbolo;
+                break;
+            case 6:
+                tableroJuego[2][4] = simbolo;
+                break;
+            case 7:
+                tableroJuego[4][0] = simbolo;
+                break;
+            case 8:
+                tableroJuego[4][2] = simbolo;
+                break;
+            case 9:
+                tableroJuego[4][4] = simbolo;
+                break;
+            default:
+                break;
         }
     }
 }
