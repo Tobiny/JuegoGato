@@ -92,7 +92,26 @@ public class Gato{
         List diagonal2 = Arrays.asList(7, 5, 3);
 
         List<List> condicionesDeVictoria = new ArrayList<List>();
-
+        
+        
+        //Evalua al ganador del juego
+        condicionesDeVictoria.add(filaTop);
+        condicionesDeVictoria.add(filaMid);
+        condicionesDeVictoria.add(filaBot);
+        condicionesDeVictoria.add(colDer);
+        condicionesDeVictoria.add(colMid);
+        condicionesDeVictoria.add(colIzq);
+        condicionesDeVictoria.add(diagonal1);
+        condicionesDeVictoria.add(diagonal2);
+        for(List l : condicionesDeVictoria){
+            if(posicionesJugador.containsAll(l)){
+                return "Ganaste!";
+            } else if(posicionesCpu.containsAll(l)){
+                return "La computadora ganó, mejor suerte la proxima";
+            } else if(posicionesCpu.size()+ posicionesJugador.size() == 9){
+                return "Empate";
+            }
+        }
         return "";
     }
 }
