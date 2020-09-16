@@ -19,14 +19,35 @@ public class Gato{
             Scanner sc = new Scanner(System.in);
             System.out.print("Ingrese la posición a seleccionar (1 al 9): ");
             int posJugador = sc.nextInt();
-    
+            while(posicionesJugador.contains(posJugador)|| posicionesCpu.contains(posJugador)){
+                System.out.println("Ya hay una ficha en esa posición, ingresa otra vacía: ");
+                posJugador = sc.nextInt();
+            }
+
             asignarPieza(tableroJuego, posJugador, "jugador");
+            String resultado  = revisarGanador();
+            if(resultado.length() > 0){
+                imprimirTablero(tableroJuego);
+                System.out.println(resultado);
+                break;
+            }
     
             Random aleatorio = new Random();
             int posCpu = aleatorio.nextInt(9) + 1;
+            while(posicionesJugador.contains(posCpu)|| posicionesCpu.contains(posCpu)){
+                posCpu = aleatorio.nextInt(9) + 1;
+            }
             asignarPieza(tableroJuego, posCpu, "cpu");
     
             imprimirTablero(tableroJuego);
+            
+            resultado  = revisarGanador();
+            if(resultado.length() > 0){
+                imprimirTablero(tableroJuego);
+                System.out.println(resultado);
+                break;
+            }
+            
         }
  
 
@@ -43,10 +64,15 @@ public class Gato{
     //Método para asignar la pieza a la posición correspondiente
     public static void asignarPieza(char[][] tableroJuego, int pos, String usuario){
         char simbolo = ' ';
-        if(usuario.equals("jugador"))
+        if(usuario.equals("jugador")){
             simbolo = 'X';
-        else if(usuario.equals("cpu"))
+            posicionesJugador.add(pos);
+        }  
+        else if(usuario.equals("cpu")){
             simbolo = 'O';
+            posicionesCpu.add(pos);
+        }
+            
         switch(pos){
             case 1:
                 tableroJuego[0][0] = simbolo;
@@ -79,6 +105,8 @@ public class Gato{
                 break;
         }
     }
+
+
     public static String revisarGanador(){
         // En este caso estamos utilizando listas para facilitarnos 
         // la evaluación de cada caso
@@ -92,9 +120,6 @@ public class Gato{
         List diagonal2 = Arrays.asList(7, 5, 3);
 
         List<List> condicionesDeVictoria = new ArrayList<List>();
-        
-        
-        //Evalua al ganador del juego
         condicionesDeVictoria.add(filaTop);
         condicionesDeVictoria.add(filaMid);
         condicionesDeVictoria.add(filaBot);
@@ -103,6 +128,7 @@ public class Gato{
         condicionesDeVictoria.add(colIzq);
         condicionesDeVictoria.add(diagonal1);
         condicionesDeVictoria.add(diagonal2);
+        //Evalua al ganador del juego
         for(List l : condicionesDeVictoria){
             if(posicionesJugador.containsAll(l)){
                 return "Ganaste!";
