@@ -1,11 +1,20 @@
+/*
+* Nombre del proyecto: Juego de Gato
+* Integrantes: Luis Fernando Chávez Jiménez y Guillermo Moreno Rivera
+* ¿De qué trata?: Realizamos el juego conocido como "Gato" utilizando arreglos de enteros,
+* de caracteres y métodos para evaluar y realizar todo el programa.
+*
+*/
+
 import java.util.*;
 
 public class Gato{
-    // Utilizamos una lista de arreglos para facilitar la evaluación de la victoria
-    // o derrota de cada jugador o de la computadora, así cómo también para facilitar
-    // la manipulación de cada posición dada.
-    static ArrayList<Integer> posicionesJugador = new ArrayList<Integer>();
-    static ArrayList<Integer> posicionesCpu = new ArrayList<Integer>();
+
+    static int[] posicionesJugador = new int[9];
+    static int[] posicionesCpu = new int[9];
+    static int jugadorCont = 0;
+    static int cpuCont = 0;
+    static int finalizar = 0;
     public static void main(String[] args) {
         char[][] tableroJuego = {{' ', '|', ' ', '|', ' '},
                                  {'-', '+', '-', '+', '-'},
@@ -15,18 +24,26 @@ public class Gato{
 
         imprimirTablero(tableroJuego);
 
-        while (true) {
+        while (finalizar !=1) {
             Scanner sc = new Scanner(System.in);
             System.out.print("Ingrese la posición a seleccionar (1 al 9): ");
             int posJugador = sc.nextInt();
-    
+            while(validar(posJugador)){
+                System.out.print("Posición tomada, ingrese otra posición: ");
+                posJugador = sc.nextInt();
+            }
+
             asignarPieza(tableroJuego, posJugador, "jugador");
-    
+            
             Random aleatorio = new Random();
             int posCpu = aleatorio.nextInt(9) + 1;
+            while(validar(posCpu)){
+                posCpu = aleatorio.nextInt(9) + 1;
+            }
             asignarPieza(tableroJuego, posCpu, "cpu");
-    
             imprimirTablero(tableroJuego);
+            System.out.println(revisarGanador());
+            
         }
  
 
@@ -42,11 +59,19 @@ public class Gato{
     }
     //Método para asignar la pieza a la posición correspondiente
     public static void asignarPieza(char[][] tableroJuego, int pos, String usuario){
+
         char simbolo = ' ';
-        if(usuario.equals("jugador"))
+        //Dependiendo quién sea asignara O o X
+        if(usuario.equals("jugador")){
             simbolo = 'X';
-        else if(usuario.equals("cpu"))
+            posicionesJugador[jugadorCont] = pos;
+            jugadorCont++;
+        } else if(usuario.equals("cpu")){
             simbolo = 'O';
+            posicionesCpu[cpuCont] = pos;
+            cpuCont++;
+        }
+
         switch(pos){
             case 1:
                 tableroJuego[0][0] = simbolo;
@@ -79,20 +104,58 @@ public class Gato{
                 break;
         }
     }
+    //Analiza en todas las posibles combinaciones si es que hay un ganador
     public static String revisarGanador(){
-        // En este caso estamos utilizando listas para facilitarnos 
-        // la evaluación de cada caso
-        List filaTop = Arrays.asList(1, 2, 3);
-        List filaMid = Arrays.asList(4, 5, 6);
-        List filaBot = Arrays.asList(7, 8, 9);
-        List colIzq = Arrays.asList(1, 4, 7);
-        List colMid = Arrays.asList(2, 5, 8);
-        List colDer = Arrays.asList(3, 6, 9);
-        List diagonal1 = Arrays.asList(1, 5, 9);
-        List diagonal2 = Arrays.asList(7, 5, 3);
 
-        List<List> condicionesDeVictoria = new ArrayList<List>();
-
+        int[][] posibleGanar = {{1, 4, 7},
+                                {2, 5, 8},
+                                {3, 6, 9},
+                                {1, 2, 3},
+                                {4, 5, 6},
+                                {7, 8, 9},
+                                {1, 5, 9},
+                                {2, 5, 7}};
+        int ganarCont = 0;
+        
+        for (int i = 0; i < posibleGanar.length; i++) {
+            for (int j = 0; j < posibleGanar[0].length; j++) {
+                for (int k = 0; k < jugadorCont; k++) {
+                    if(posicionesJugador[k] == posibleGanar[i][j]){
+                        ganarCont++;
+                    } 
+                    if(ganarCont==3){
+                        finalizar = 1;
+                        return "El jugador ha ganado.";
+                    }
+                } 
+            } 
+            ganarCont = 0;
+        }
+        for (int i = 0; i < posibleGanar.length; i++) {
+            for (int j = 0; j < posibleGanar[0].length; j++) {
+                for (int k = 0; k < cpuCont; k++) {
+                    if(posicionesCpu[k]==posibleGanar[i][j]){
+                        ganarCont++;
+                    } 
+                    if(ganarCont==3){
+                        finalizar = 1;
+                        return "El cpu ha ganado.";
+                    }
+                }
+            }
+            ganarCont = 0;
+        }
+        
         return "";
+    }
+
+    //Valida si es que ya se tomó la posición
+    public static boolean validar(int pos){
+        for (int i = 0; i < posicionesJugador.length; i++) {
+            if(posicionesJugador[i] == pos || posicionesCpu[i] == pos){
+                return true;
+            }
+        }
+        return false;
     }
 }
