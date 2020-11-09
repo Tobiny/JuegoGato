@@ -15,6 +15,7 @@ public class Gato{
     static int jugadorCont = 0;
     static int cpuCont = 0;
     static int finalizar = 0;
+    static int tableroCont = 0;
     public static void main(String[] args) {
         char[][] tableroJuego = {{' ', '|', ' ', '|', ' '},
                                  {'-', '+', '-', '+', '-'},
@@ -66,10 +67,12 @@ public class Gato{
             simbolo = 'X';
             posicionesJugador[jugadorCont] = pos;
             jugadorCont++;
+            tableroCont++;
         } else if(usuario.equals("cpu")){
             simbolo = 'O';
             posicionesCpu[cpuCont] = pos;
             cpuCont++;
+            tableroCont++;
         }
 
         switch(pos){
@@ -153,37 +156,43 @@ public class Gato{
         
         
         int ganador = posiblesG.recorrer(posicionesJugador, jugadorCont, 1);
+        if((posiblesG.recorrer(posicionesJugador, jugadorCont, 1) == 1){
+            System.out.println(ganador);
+        } else if(posiblesG.recorrer(posicionesCpu, cpuCont, 2) == 2){
+            System.out.println(ganador);
+        } else if(tablero == 9){
+
+        }
         
         
-        System.out.println(ganador);
-        for (int i = 0; i < posibleGanar.length; i++) {
-            for (int j = 0; j < posibleGanar[0].length; j++) {
-                for (int k = 0; k < jugadorCont; k++) {
-                    if(posicionesJugador[k] == posibleGanar[i][j]){
-                        ganarCont++;
-                    } 
-                    if(ganarCont==3){
-                        finalizar = 1;
-                        return "El jugador ha ganado.";
-                    }
-                } 
-            } 
-            ganarCont = 0;
-        }
-        for (int i = 0; i < posibleGanar.length; i++) {
-            for (int j = 0; j < posibleGanar[0].length; j++) {
-                for (int k = 0; k < cpuCont; k++) {
-                    if(posicionesCpu[k]==posibleGanar[i][j]){
-                        ganarCont++;
-                    } 
-                    if(ganarCont==3){
-                        finalizar = 1;
-                        return "El cpu ha ganado.";
-                    }
-                }
-            }
-            ganarCont = 0;
-        }
+        // for (int i = 0; i < posibleGanar.length; i++) {
+        //     for (int j = 0; j < posibleGanar[0].length; j++) {
+        //         for (int k = 0; k < jugadorCont; k++) {
+        //             if(posicionesJugador[k] == posibleGanar[i][j]){
+        //                 ganarCont++;
+        //             } 
+        //             if(ganarCont==3){
+        //                 finalizar = 1;
+        //                 return "El jugador ha ganado.";
+        //             }
+        //         } 
+        //     } 
+        //     ganarCont = 0;
+        // }
+        // for (int i = 0; i < posibleGanar.length; i++) {
+        //     for (int j = 0; j < posibleGanar[0].length; j++) {
+        //         for (int k = 0; k < cpuCont; k++) {
+        //             if(posicionesCpu[k]==posibleGanar[i][j]){
+        //                 ganarCont++;
+        //             } 
+        //             if(ganarCont==3){
+        //                 finalizar = 1;
+        //                 return "El cpu ha ganado.";
+        //             }
+        //         }
+        //     }
+        //     ganarCont = 0;
+        // }
         
         return "";
     }
