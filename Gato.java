@@ -104,11 +104,17 @@ public class Gato{
                 break;
         }
     }
+    public static Lista llenaLista(int[][] p, int p2){
+        Lista lista1 = new Lista();
+        for (int i = 0; i < 3; i++) {
+            lista1.agregarAlInicio(p[p2][i]);
+        }
+        
+        return lista1;
+    }
     //Analiza en todas las posibles combinaciones si es que hay un ganador
     public static String revisarGanador(){
-        Lista lista[] = new Lista();
-
-        
+        Lista posiblesG = new Lista();
         int[][] posibleGanar = {{1, 4, 7},
                                 {2, 5, 8},
                                 {3, 6, 9},
@@ -117,7 +123,37 @@ public class Gato{
                                 {7, 8, 9},
                                 {1, 5, 9},
                                 {2, 5, 7}};
+
+        Lista filaTop = new Lista();
+        filaTop = llenaLista(posibleGanar, 3);
+        Lista filaMid = new Lista();
+        filaMid = llenaLista(posibleGanar, 4);
+        Lista filaBot = new Lista();
+        filaBot = llenaLista(posibleGanar, 5);
+        Lista colIzq = new Lista();
+        colIzq = llenaLista(posibleGanar, 0);
+        Lista colMid = new Lista();
+        colMid = llenaLista(posibleGanar, 1);
+        Lista colDer = new Lista();
+        colDer = llenaLista(posibleGanar, 2);
+        Lista diago1 = new Lista();
+        diago1 = llenaLista(posibleGanar, 6);
+        Lista diago2 = new Lista();
+        diago2 = llenaLista(posibleGanar, 7);
         int ganarCont = 0;
+        
+        posiblesG.agregar(filaTop);
+        posiblesG.agregar(filaMid);
+        posiblesG.agregar(filaBot);
+        posiblesG.agregar(colIzq);
+        posiblesG.agregar(colMid);
+        posiblesG.agregar(colDer);
+        posiblesG.agregar(diago1);
+        posiblesG.agregar(diago2);
+        
+        posiblesG.recorre();
+        
+        int ganador = posiblesG.recorrer(posicionesJugador, jugadorCont, 1);
         
         for (int i = 0; i < posibleGanar.length; i++) {
             for (int j = 0; j < posibleGanar[0].length; j++) {

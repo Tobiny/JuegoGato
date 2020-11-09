@@ -24,6 +24,16 @@ public class Lista {
             inicio = fin = new Nodo(elemento);
     }
     //Método para agregar un nodo al inicio de la lista
+    public void agregar(int elemento){
+        inicio = new Nodo(elemento, inicio);
+        if(fin == null) 
+            fin = inicio;
+    }
+    public void agregar(Lista elemento){
+        inicio = new Nodo(elemento, inicio);
+        if(fin == null) 
+            fin = inicio;
+    }
     public void agregarAlInicio(int elemento){
         //Crear el nodo
         inicio = new Nodo(elemento, inicio);
@@ -107,6 +117,84 @@ public class Lista {
         }
         return b;
     }
+    public String accede(){
+       String impreLista = "";
+
+        Nodo recorrer = inicio.l.inicio;
+        while(recorrer != null){
+            impreLista += "[" + recorrer.dato + "]-->";
+            recorrer = recorrer.siguiente;
+        }
+         return impreLista;
+    }
+    
+    
+    public void recorre(){
+         Nodo temp = inicio;
+         Nodo temp2 = inicio.l.inicio;
+         
+         while (temp != null){
+            while (temp2 != null){
+               System.out.print(temp2.dato);
+               temp2 = temp2.siguiente;
+            }
+            
+            System.out.println();
+            temp = temp.siguiente;
+            if(temp!=null)
+               temp2 = temp.l.inicio;
+         }
+    }
+    
+    
+    public int recorrer(int posicionesJugador[], int jugadorCont, int jugador){
+        int ganador = 0;
+        boolean ganado = false;
+        int ganarCont = 0;
+        Nodo temporal, anterior, temporalL, anteriorL;
+        Nodo temp = inicio;
+        Nodo temp2 = inicio.l.inicio;
+         
+        while (temp != null){
+            while (temp2 != null){
+               
+               temp2 = temp2.siguiente;
+            }
+            temp = temp.siguiente;
+            if(temp!=null)
+               temp2 = temp.l.inicio;
+               
+         }
+        
+        
+        
+        
+        
+        
+        
+        
+        while(temporal != null && !ganado){
+              while(temporalL != null && !ganado){
+                  for (int k = 0; k < jugadorCont; k++) {
+                     if(posicionesJugador[k] == anteriorL.dato)
+                        ganarCont++;
+                     if(ganarCont == 3){
+                        ganado = true;
+                        ganador = jugador;
+                     }
+                  }
+                  ganarCont = 0;
+                  anteriorL = anteriorL.siguiente;
+                  temporalL = temporalL.siguiente;
+              }
+              anterior = anterior.siguiente;
+              temporal = temporal.siguiente;
+        }
+        return ganador;
+    }
+
+    
+    
 
     //Método para insertar entre dos nodos
     public void insertarEntreNodos(int datoTemp, int elemento){
