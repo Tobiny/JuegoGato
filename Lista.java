@@ -155,41 +155,28 @@ public class Lista {
         Nodo temp = inicio;
         Nodo temp2 = inicio.l.inicio;
          
-        while (temp != null){
+        while (temp != null && !ganado){
             while (temp2 != null){
-               
-               temp2 = temp2.siguiente;
+                for (int k = 0; k < jugadorCont; k++) {
+                    if(posicionesJugador[k] == temp2.dato){
+                        ganarCont++;              
+                    }  
+                    if(ganarCont == 3){
+                       ganado = true;
+                       ganador = jugador;
+                    }
+                    
+                }
+
+                temp2 = temp2.siguiente;
             }
+            ganarCont = 0;
             temp = temp.siguiente;
             if(temp!=null)
                temp2 = temp.l.inicio;
                
          }
-        
-        
-        
-        
-        
-        
-        
-        
-        while(temporal != null && !ganado){
-              while(temporalL != null && !ganado){
-                  for (int k = 0; k < jugadorCont; k++) {
-                     if(posicionesJugador[k] == anteriorL.dato)
-                        ganarCont++;
-                     if(ganarCont == 3){
-                        ganado = true;
-                        ganador = jugador;
-                     }
-                  }
-                  ganarCont = 0;
-                  anteriorL = anteriorL.siguiente;
-                  temporalL = temporalL.siguiente;
-              }
-              anterior = anterior.siguiente;
-              temporal = temporal.siguiente;
-        }
+    
         return ganador;
     }
 
