@@ -106,7 +106,9 @@ public class Gato{
     }
     //Analiza en todas las posibles combinaciones si es que hay un ganador
     public static String revisarGanador(){
+        Lista lista[] = new Lista();
 
+        
         int[][] posibleGanar = {{1, 4, 7},
                                 {2, 5, 8},
                                 {3, 6, 9},
