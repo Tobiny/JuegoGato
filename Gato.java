@@ -153,6 +153,8 @@ public class Gato{
         
         
         int ganador = posiblesG.recorrer(posicionesJugador, jugadorCont, 1);
+        
+        
         System.out.println(ganador);
         for (int i = 0; i < posibleGanar.length; i++) {
             for (int j = 0; j < posibleGanar[0].length; j++) {
