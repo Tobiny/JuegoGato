@@ -30,6 +30,7 @@ public class Gato{
  
 
     }
+    //M�todo de men�
     private static void menu(){
         String opc = "";
         String[] opciones = {"Jugar partida", "Ver puntuaciones", "Reiniciar puntuaciones", "Salir" };
@@ -41,18 +42,23 @@ public class Gato{
                     jugarPartida();
                     break;
                 case "Ver puntuaciones":
-                    
+                    JOptionPane.showMessageDialog(null, "Se empato la ronda","Gato - Empate.", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "Reiniciar puntuaciones":
-                    
+                    JOptionPane.showMessageDialog(null, "Se empato la ronda","Gato - Empate.", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "Salir":
-                    
+                    JOptionPane.showMessageDialog(null, "Programa finalizado, falta validación del rango 1-9 en posiciones.\n"+
+                                                        "Falta opciones 2 y 3 del menú\n"+
+                                                        "Creado por: Luis Fernando Chávez Jiménez\n"+
+                                                        "Guillermo Moreno Rivera","Gato - Salir", JOptionPane.INFORMATION_MESSAGE);
+
                     break;
             }
         }
         
     }
+    //M�todo para reiniciar las variables para jugar partida
     private static void reinicia(){
         for (int i = 0; i < posicionesCpu.length; i++) {
             posicionesCpu[i] = 0;
@@ -64,7 +70,9 @@ public class Gato{
         finalizar = 0;
         ganador = 0;
     }
+    //M�todo para jugar partida
     private static void jugarPartida(){
+        JOptionPane.showMessageDialog(null, "Tablero y juego se imprimi� en consola","Gato - Jugar partida.", JOptionPane.INFORMATION_MESSAGE);
         reinicia();
         char[][] tableroJuego = {{' ', '|', ' ', '|', ' '},
                                  {'-', '+', '-', '+', '-'},
@@ -73,8 +81,9 @@ public class Gato{
                                  {' ', '|', ' ', '|', ' '}};
 
         imprimirTablero(tableroJuego);
-
+        
         while (finalizar !=1) {
+            System.out.println(tableroCont);
             Scanner sc = new Scanner(System.in);
             System.out.print("Ingrese la posición a seleccionar (1 al 9): ");
             int posJugador = sc.nextInt();
@@ -82,18 +91,17 @@ public class Gato{
                 System.out.print("Posición tomada, ingrese otra posición: ");
                 posJugador = sc.nextInt();
             }
-            tableroCont++;
             asignarPieza(tableroJuego, posJugador, "jugador");
             if(revisarGanador())
                 break;
-
+             
             Random aleatorio = new Random();
             int posCpu = aleatorio.nextInt(9) + 1;
             while(validar(posCpu)){
                 posCpu = aleatorio.nextInt(9) + 1;
             }
             asignarPieza(tableroJuego, posCpu, "cpu");
-            tableroCont++;
+   
             imprimirTablero(tableroJuego);
             if(revisarGanador())
                 break;
@@ -174,7 +182,7 @@ public class Gato{
                                 {4, 5, 6},
                                 {7, 8, 9},
                                 {1, 5, 9},
-                                {2, 5, 7}};
+                                {3, 5, 7}};
 
         Lista filaTop = new Lista();
         filaTop = llenaLista(posibleGanar, 3);
@@ -211,7 +219,7 @@ public class Gato{
             puntosJ++;
             finalizar = 1;
         } else if((posiblesG.recorrer(posicionesCpu, cpuCont, 2)) == 2){
-            JOptionPane.showMessageDialog(null, "El jugador ha ganado esta ronda","Gato - Juego ganado por jugador.", JOptionPane.INFORMATION_MESSAGE);JOptionPane.showMessageDialog(null, "El jugador ha ganado esta ronda","Gato - Juego ganado por jugador.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El cpu ha ganado esta ronda","Gato - Juego ganado por cpu.", JOptionPane.INFORMATION_MESSAGE);
             aTemp = true;
             puntosC++;
             finalizar = 1;

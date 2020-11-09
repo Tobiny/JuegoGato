@@ -3,14 +3,7 @@ public class Nodo {
     public Lista l;
     public Nodo siguiente; //Puntero enlace
     //Constructor que nos ayuda a insertar al final
-    public Nodo(int d){ 
-        this.dato = d;
-        this.siguiente = null;
-    }
-    public Nodo(Lista l){
-        this.l = l;
-        this.siguiente = null;
-    }
+
     //Constructor que nos ayuda a insertar al inicio
     public Nodo(int d, Nodo n){ 
         this.dato = d;
