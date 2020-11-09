@@ -4,8 +4,8 @@ public class Gato{
     // Utilizamos una lista de arreglos para facilitar la evaluación de la victoria
     // o derrota de cada jugador o de la computadora, así cómo también para facilitar
     // la manipulación de cada posición dada.
-    static ArrayList<Integer> posicionesJugador = new ArrayList<Integer>();
-    static ArrayList<Integer> posicionesCpu = new ArrayList<Integer>();
+    static Lista posicionesJugador1 = new Lista();
+    static Lista posicionesCpu1 = new Lista();
     public static void main(String[] args) {
         char[][] tableroJuego = {{' ', '|', ' ', '|', ' '},
                                  {'-', '+', '-', '+', '-'},
@@ -19,7 +19,7 @@ public class Gato{
             Scanner sc = new Scanner(System.in);
             System.out.print("Ingrese la posición a seleccionar (1 al 9): ");
             int posJugador = sc.nextInt();
-            while(posicionesJugador.contains(posJugador)|| posicionesCpu.contains(posJugador)){
+            while(posicionesJugador1.buscar(posJugador)|| posicionesCpu1.buscar(posJugador)){
                 System.out.println("Ya hay una ficha en esa posición, ingresa otra vacía: ");
                 posJugador = sc.nextInt();
             }
@@ -27,14 +27,14 @@ public class Gato{
             asignarPieza(tableroJuego, posJugador, "jugador");
             String resultado  = revisarGanador();
             if(resultado.length() > 0){
-                imprimirTablero(tableroJuego);
+                
                 System.out.println(resultado);
                 break;
             }
     
             Random aleatorio = new Random();
             int posCpu = aleatorio.nextInt(9) + 1;
-            while(posicionesJugador.contains(posCpu)|| posicionesCpu.contains(posCpu)){
+            while(posicionesJugador1.buscar(posCpu)|| posicionesCpu1.buscar(posCpu)){
                 posCpu = aleatorio.nextInt(9) + 1;
             }
             asignarPieza(tableroJuego, posCpu, "cpu");
@@ -66,11 +66,11 @@ public class Gato{
         char simbolo = ' ';
         if(usuario.equals("jugador")){
             simbolo = 'X';
-            posicionesJugador.add(pos);
+            posicionesJugador1.agregarAlFinal(pos);
         }  
         else if(usuario.equals("cpu")){
             simbolo = 'O';
-            posicionesCpu.add(pos);
+            posicionesCpu1.agregarAlFinal(pos);
         }
             
         switch(pos){
@@ -106,38 +106,255 @@ public class Gato{
         }
     }
 
-
+    static Lista filaTop1 = new Lista();
+    static Lista filaMid1 = new Lista();
+    static Lista filaBot1 = new Lista();
+    static Lista colIzq1 = new Lista();
+    static Lista colMid1 = new Lista();
+    static Lista colDer1 = new Lista();
+    static Lista diagonal1A = new Lista();
+    static Lista diagonal2A = new Lista();
     public static String revisarGanador(){
         // En este caso estamos utilizando listas para facilitarnos 
         // la evaluación de cada caso
-        List filaTop = Arrays.asList(1, 2, 3);
-        List filaMid = Arrays.asList(4, 5, 6);
-        List filaBot = Arrays.asList(7, 8, 9);
-        List colIzq = Arrays.asList(1, 4, 7);
-        List colMid = Arrays.asList(2, 5, 8);
-        List colDer = Arrays.asList(3, 6, 9);
-        List diagonal1 = Arrays.asList(1, 5, 9);
-        List diagonal2 = Arrays.asList(7, 5, 3);
 
-        List<List> condicionesDeVictoria = new ArrayList<List>();
-        condicionesDeVictoria.add(filaTop);
-        condicionesDeVictoria.add(filaMid);
-        condicionesDeVictoria.add(filaBot);
-        condicionesDeVictoria.add(colDer);
-        condicionesDeVictoria.add(colMid);
-        condicionesDeVictoria.add(colIzq);
-        condicionesDeVictoria.add(diagonal1);
-        condicionesDeVictoria.add(diagonal2);
+        
+        filaTop1.agregarAlFinal(1);
+        filaTop1.agregarAlFinal(2);
+        filaTop1.agregarAlFinal(3);
+
+        
+        filaMid1.agregarAlFinal(4);
+        filaMid1.agregarAlFinal(5);
+        filaMid1.agregarAlFinal(6);
+
+        
+        filaBot1.agregarAlFinal(7);
+        filaBot1.agregarAlFinal(8);
+        filaBot1.agregarAlFinal(9);
+
+        
+        colIzq1.agregarAlFinal(1);
+        colIzq1.agregarAlFinal(4);
+        colIzq1.agregarAlFinal(7);
+
+        
+        colMid1.agregarAlFinal(2);
+        colMid1.agregarAlFinal(5);
+        colMid1.agregarAlFinal(8);
+
+        
+        colDer1.agregarAlFinal(3);
+        colDer1.agregarAlFinal(6);
+        colDer1.agregarAlFinal(9);
+
+        
+        diagonal1A.agregarAlFinal(1);
+        diagonal1A.agregarAlFinal(5);
+        diagonal1A.agregarAlFinal(9);
+
+        
+        diagonal2A.agregarAlFinal(7);
+        diagonal2A.agregarAlFinal(5);
+        diagonal2A.agregarAlFinal(3);
+
+        
         //Evalua al ganador del juego
-        for(List l : condicionesDeVictoria){
-            if(posicionesJugador.containsAll(l)){
-                return "Ganaste!";
-            } else if(posicionesCpu.containsAll(l)){
-                return "La computadora ganó, mejor suerte la proxima";
-            } else if(posicionesCpu.size()+ posicionesJugador.size() == 9){
-                return "Empate";
+        if(compruebaF1J()||compruebaF2J()||compruebaF3J()||compruebaC1J()||compruebaC2J()||compruebaC3J()||compruebaD1J()||compruebaD2J()) return"Ganaste!";
+        else if(compruebaF1C()||compruebaF2C()||compruebaF3C()||compruebaC1C()||compruebaC2C()||compruebaC3C()||compruebaD1C()||compruebaD2C()) return"Gano el CPU";
+        else if(posicionesCpu1.longitud()+ posicionesJugador1.longitud() == 9) return "Empate";
+        else return "";
+    }
+    public static boolean compruebaF1J(){
+        int contiene = 0;
+        for(int x = 0; x < filaTop1.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(filaTop1.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
             }
         }
-        return "";
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaF2J(){
+        int contiene = 0;
+        for(int x = 0; x < filaMid1.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(filaMid1.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaF3J(){
+        int contiene = 0;
+        for(int x = 0; x < filaBot1.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(filaBot1.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaC1J(){
+        int contiene = 0;
+        for(int x = 0; x < colIzq1.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(colIzq1.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaC2J(){
+        int contiene = 0;
+        for(int x = 0; x < colMid1.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(colMid1.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaC3J(){
+        int contiene = 0;
+        for(int x = 0; x < colDer1.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(colDer1.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaD1J(){
+        int contiene = 0;
+        for(int x = 0; x < diagonal1A.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(diagonal1A.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaD2J(){
+        int contiene = 0;
+        for(int x = 0; x < diagonal2A.longitud(); x++){
+            for(int z = 0; z < posicionesJugador1.longitud(); z++){
+                if(diagonal2A.getReferencia(x) == posicionesJugador1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaF1C(){
+        int contiene = 0;
+        for(int x = 0; x < filaTop1.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(filaTop1.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaF2C(){
+        int contiene = 0;
+        for(int x = 0; x < filaMid1.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(filaMid1.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaF3C(){
+        int contiene = 0;
+        for(int x = 0; x < filaBot1.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(filaBot1.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaC1C(){
+        int contiene = 0;
+        for(int x = 0; x < colIzq1.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(colIzq1.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaC2C(){
+        int contiene = 0;
+        for(int x = 0; x < colMid1.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(colMid1.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaC3C(){
+        int contiene = 0;
+        for(int x = 0; x < colDer1.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(colDer1.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaD1C(){
+        int contiene = 0;
+        for(int x = 0; x < diagonal1A.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(diagonal1A.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
+    }
+    public static boolean compruebaD2C(){
+        int contiene = 0;
+        for(int x = 0; x < diagonal2A.longitud(); x++){
+            for(int z = 0; z < posicionesCpu1.longitud(); z++){
+                if(diagonal2A.getReferencia(x) == posicionesCpu1.getReferencia(z)){
+                     contiene++;
+                }    
+            }
+        }
+        if (contiene == 18) return true;
+        else return false;
     }
 }
