@@ -7,6 +7,8 @@
 */
 
 import java.util.*;
+import javax.swing.*;
+import javax.swing.JInternalFrame.JDesktopIcon;
 
 public class Gato{
 
@@ -14,9 +16,56 @@ public class Gato{
     static int[] posicionesCpu = new int[9];
     static int jugadorCont = 0;
     static int cpuCont = 0;
+    static int puntosJ = 0;
+    static int puntosC = 0;
+
     static int finalizar = 0;
     static int tableroCont = 0;
+    static int ganador = 0;
+    static JFrame frame = new JFrame("Juego de Gato");
     public static void main(String[] args) {
+        
+        menu();
+
+ 
+
+    }
+    private static void menu(){
+        String opc = "";
+        String[] opciones = {"Jugar partida", "Ver puntuaciones", "Reiniciar puntuaciones", "Salir" };
+        while(!opc.equals(opciones[3])){
+            opc = (String) JOptionPane.showInputDialog(frame, "¿Qué desea hacer?", "Juego de Gato", JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+            switch (opc) {
+            
+                case "Jugar partida":
+                    jugarPartida();
+                    break;
+                case "Ver puntuaciones":
+                    
+                    break;
+                case "Reiniciar puntuaciones":
+                    
+                    break;
+                case "Salir":
+                    
+                    break;
+            }
+        }
+        
+    }
+    private static void reinicia(){
+        for (int i = 0; i < posicionesCpu.length; i++) {
+            posicionesCpu[i] = 0;
+            posicionesJugador[i] = 0;
+        }
+        jugadorCont = 0;
+        cpuCont = 0;
+        tableroCont = 0;
+        finalizar = 0;
+        ganador = 0;
+    }
+    private static void jugarPartida(){
+        reinicia();
         char[][] tableroJuego = {{' ', '|', ' ', '|', ' '},
                                  {'-', '+', '-', '+', '-'},
                                  {' ', '|', ' ', '|', ' '},
@@ -33,22 +82,28 @@ public class Gato{
                 System.out.print("Posición tomada, ingrese otra posición: ");
                 posJugador = sc.nextInt();
             }
-
+            tableroCont++;
             asignarPieza(tableroJuego, posJugador, "jugador");
-            
+            if(revisarGanador())
+                break;
+
             Random aleatorio = new Random();
             int posCpu = aleatorio.nextInt(9) + 1;
             while(validar(posCpu)){
                 posCpu = aleatorio.nextInt(9) + 1;
             }
             asignarPieza(tableroJuego, posCpu, "cpu");
+            tableroCont++;
             imprimirTablero(tableroJuego);
-            System.out.println(revisarGanador());
+            if(revisarGanador())
+                break;
+            
             
         }
- 
 
     }
+
+
     //Método para imprimir el tablero de juego
     public static void imprimirTablero(char[][] tableroJuego){
         for (char[] fila : tableroJuego) {
@@ -107,16 +162,10 @@ public class Gato{
                 break;
         }
     }
-    public static Lista llenaLista(int[][] p, int p2){
-        Lista lista1 = new Lista();
-        for (int i = 0; i < 3; i++) {
-            lista1.agregarAlInicio(p[p2][i]);
-        }
-        
-        return lista1;
-    }
     //Analiza en todas las posibles combinaciones si es que hay un ganador
-    public static String revisarGanador(){
+    public static boolean revisarGanador(){
+        boolean aTemp = false;
+        //Creamos lista que almacena listas de los posibles casos de gane
         Lista posiblesG = new Lista();
         int[][] posibleGanar = {{1, 4, 7},
                                 {2, 5, 8},
@@ -155,16 +204,24 @@ public class Gato{
         posiblesG.agregar(diago2);
         
         
-        int ganador = posiblesG.recorrer(posicionesJugador, jugadorCont, 1);
-        if((posiblesG.recorrer(posicionesJugador, jugadorCont, 1) == 1){
-            System.out.println(ganador);
-        } else if(posiblesG.recorrer(posicionesCpu, cpuCont, 2) == 2){
-            System.out.println(ganador);
-        } else if(tablero == 9){
 
+        if((posiblesG.recorrer(posicionesJugador, jugadorCont, 1)) == 1){
+            JOptionPane.showMessageDialog(null, "El jugador ha ganado esta ronda","Gato - Juego ganado por jugador.", JOptionPane.INFORMATION_MESSAGE);
+            aTemp = true;
+            puntosJ++;
+            finalizar = 1;
+        } else if((posiblesG.recorrer(posicionesCpu, cpuCont, 2)) == 2){
+            JOptionPane.showMessageDialog(null, "El jugador ha ganado esta ronda","Gato - Juego ganado por jugador.", JOptionPane.INFORMATION_MESSAGE);JOptionPane.showMessageDialog(null, "El jugador ha ganado esta ronda","Gato - Juego ganado por jugador.", JOptionPane.INFORMATION_MESSAGE);
+            aTemp = true;
+            puntosC++;
+            finalizar = 1;
+        } else if(tableroCont == 9){
+            JOptionPane.showMessageDialog(null, "Se empato la ronda","Gato - Empate.", JOptionPane.INFORMATION_MESSAGE);
+            aTemp = true;
+            finalizar = 1;
         }
         
-        
+        //Método que utilizabamos para evaluar
         // for (int i = 0; i < posibleGanar.length; i++) {
         //     for (int j = 0; j < posibleGanar[0].length; j++) {
         //         for (int k = 0; k < jugadorCont; k++) {
@@ -194,7 +251,17 @@ public class Gato{
         //     ganarCont = 0;
         // }
         
-        return "";
+        return aTemp;
+    }
+
+    //LLenamos la lista con los posibles resultados ganadores
+    public static Lista llenaLista(int[][] p, int p2){
+        Lista lista1 = new Lista();
+        for (int i = 0; i < 3; i++) {
+            lista1.agregarAlInicio(p[p2][i]);
+        }
+        
+        return lista1;
     }
 
     //Valida si es que ya se tomó la posición
