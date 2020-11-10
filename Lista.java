@@ -15,7 +15,11 @@ public class Lista {
         else
             return false;
     }
-
+    public void agregar(Lista elemento){
+        inicio = new Nodo(elemento, inicio);
+        if(fin == null) 
+            fin = inicio;
+    }
     //Método para insertar al final de la lista
     public void agregarAlFinal(int elemento){
         if(!estaVacia()){
@@ -97,24 +101,16 @@ public class Lista {
     //Método para buscar en la lista
     //Ojo, se mejoro un poco el algoritmo dado, pero la lógica es la misma
     public boolean buscar(int referencia){
-        // Crea una copia de la lista.
         Nodo aux = inicio;
-        // Bandera para indicar si el valor existe.
         boolean encontrado = false;
-        // Recorre la lista hasta encontrar el elemento o hasta 
-        // llegar al final de la lista.
         while(aux != null && encontrado != true){
-            // Consulta si el valor del nodo es igual al de referencia.
             if (referencia == aux.getValor()){
-                // Canbia el valor de la bandera.
                 encontrado = true;
             }
             else{
-                // Avansa al siguiente. nodo.
                 aux = aux.getSiguiente();
             }
         }
-        // Retorna el resultado de la bandera.
         return encontrado;
     }
 
@@ -123,41 +119,32 @@ public class Lista {
         if(inicio == fin && datoTemp == inicio.dato){
             inicio = new Nodo(elemento, inicio);
         }
-        else {if(datoTemp == inicio.dato){
-            inicio = new Nodo(elemento, inicio);
-        }
-
         else {
-            Nodo anterior, temporal;
-            anterior = inicio;
-            temporal = inicio.siguiente;
-            while(temporal != null && temporal.dato != datoTemp){
+            if(datoTemp == inicio.dato){
+            inicio = new Nodo(elemento, inicio);
+            } else {
+                Nodo anterior, temporal;
+                anterior = inicio;
+                temporal = inicio.siguiente;
+                while(temporal != null && temporal.dato != datoTemp){
                 anterior = anterior.siguiente;
                 temporal = temporal.siguiente;
+                }
+                if(temporal != null){
+                    anterior.siguiente = new Nodo(elemento, temporal);
+                }
             }
-            if(temporal != null){
-                anterior.siguiente = new Nodo(elemento, temporal);
-            }
-        }}
-        
+        }
     }
     public int getPosicion(int referencia){
-        // Consulta si el valor existe en la lista.
         if (buscar(referencia)) {
-            // Crea una copia de la lista.
             Nodo aux = inicio;
-            // Contador para almacenar la posición del nodo.
             int cont = 0;
-            // Recorre la lista hasta llegar al nodo de referencia.
             while(referencia != aux.getValor()){
-                // Incrementa el contador.
                 cont ++;
-                // Avanza al siguiente nodo.
                 aux = aux.getSiguiente();
             }
-            // Retorna el valor del contador.
             return cont;
-        // Crea una excepción de Valor inexistente en la lista.
         }
         return -1;
     }
@@ -180,5 +167,38 @@ public class Lista {
             }
             return referencia;
         }
+    }
+    public void llenarGanador(int a, int b, int c){
+        this.agregarAlFinal(a);
+        this.agregarAlFinal(b);
+        this.agregarAlFinal(c);
+    }
+    public int recorrer(Lista posicionesJugador, int jugadorCont, int jugador){
+        int ganador = 0;
+        boolean ganado = false;
+        int ganarCont = 0;
+        Nodo temp = inicio;
+        Nodo temp2 = inicio.l.inicio;
+        while (temp != null && !ganado){
+            while (temp2 != null){
+                for (int k = 0; k < posicionesJugador.longitud(); k++) {
+                    if(posicionesJugador.getReferencia(k) == temp2.getValor()){
+                        ganarCont++;              
+                    }  
+                    if(ganarCont == 18){
+                       ganado = true;
+                       ganador = jugador;
+                    }
+                }
+                temp2 = temp2.siguiente;
+            }
+            ganarCont = 0;
+            temp = temp.siguiente;
+            if(temp!=null)
+               temp2 = temp.l.inicio;
+               
+         }
+    
+        return ganador;
     }
 }
