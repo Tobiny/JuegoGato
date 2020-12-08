@@ -53,8 +53,8 @@ public class GatoChavezMoreno{
     public static void menu(){
         
         String opc = "";
-        String[] opciones = {"Jugar partida", "Ver puntuaciones / Guardar puntuaciones", "Nuevo usuario", "Salir" };
-        while(!opc.equals(opciones[3])){
+        String[] opciones = {"Jugar partida", "Ver puntuaciones / Guardar puntuaciones", "Buscar jugador por puntuación","Nuevo usuario", "Salir" };
+        while(!opc.equals(opciones[4])){
             limpiar();
             opc = (String) JOptionPane.showInputDialog(frame, "¿Qué desea hacer?", "Juego de Gato", JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
             switch (opc) {
@@ -70,10 +70,13 @@ public class GatoChavezMoreno{
                     arbol.inOrder(arbol.raiz);
                     
                     break;
+                case "Buscar jugador por puntuación":
+                    variableDeBusqueda = JOptionPane.showInputDialog(null, "Ingrese los puntos a buscar: ","Gato - Busqueda", JOptionPane.INFORMATION_MESSAGE);
+                    break;
                 case "Nuevo usuario":
                     puntosJ = 0;
                     nom = "";
-                    nom = JOptionPane.showInputDialog(null, "Ingrese si nombre: ","Gato - Inicio", JOptionPane.INFORMATION_MESSAGE);
+                    nom = JOptionPane.showInputDialog(null, "Ingrese su nombre: ","Gato - Inicio", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "Salir":
                     JOptionPane.showMessageDialog(null, "Programa finalizado.\n"+
