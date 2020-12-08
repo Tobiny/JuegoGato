@@ -88,6 +88,7 @@ public class GatoChavezMoreno{
                                  {' ', '|', ' ', '|', ' '}};
         imprimirTablero(tableroJuego);
         while (finalizar != 1) {
+            Scanner sc = new Scanner(System.in);
 
             int posJugador = ingresarJugador();
 
@@ -140,14 +141,12 @@ public class GatoChavezMoreno{
         if(usuario.equals("jugador")){
             simbolo = 'X';
             posicionesJugador[jugadorCont] = pos;
-            posicionesJugador1.agregarAlFinal(pos);
             jugadorCont++;
             tableroCont++;
         }  
         else if(usuario.equals("cpu")){
             simbolo = 'O';
             posicionesCpu[cpuCont] = pos;
-            posicionesJugador1.agregarAlFinal(pos);
             cpuCont++;
             tableroCont++;
         }
@@ -282,7 +281,7 @@ public class GatoChavezMoreno{
                 for (int j = posicionesJugador.length; j < i; j++) {
                     if(posicionesJugador[j-i]> posicionesJugador[j]){
                         aux = posicionesJugador[j-i];
-                        posicionesJugador[j-i] = posicionesJugador[j];
+                        posicionesJugador[j-i] = posicionesJugador[j]
                         posicionesJugador[j] = aux;
                     }
                     
@@ -293,7 +292,7 @@ public class GatoChavezMoreno{
                 for (int j = posicionesCpu.length; j < i; j++) {
                     if(posicionesCpu[j-i]> posicionesCpu[j]){
                         aux = posicionesCpu[j-i];
-                        posicionesCpu[j-i] = posicionesCpu[j];
+                        posicionesCpu[j-i] = posicionesCpu[j]
                         posicionesCpu[j] = aux;
                     }
                     
