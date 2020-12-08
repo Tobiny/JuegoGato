@@ -14,8 +14,6 @@ public class GatoChavezMoreno{
     static ListaChavezMoreno posicionesJugador1;
     static ListaChavezMoreno posicionesCpu1;
     //Listas que almacenan las combinaciones ganadoras
-    static int posicionesJugador[] = new int[9];
-    static int posicionesCpu[] = new int[9];
     static ListaChavezMoreno filaTop1 = new ListaChavezMoreno();
     static ListaChavezMoreno filaMid1 = new ListaChavezMoreno();
     static ListaChavezMoreno filaBot1 = new ListaChavezMoreno();
@@ -140,13 +138,13 @@ public class GatoChavezMoreno{
         char simbolo = ' ';
         if(usuario.equals("jugador")){
             simbolo = 'X';
-            posicionesJugador[jugadorCont] = pos;
+            posicionesJugador1.agregarAlFinal(pos);
             jugadorCont++;
             tableroCont++;
         }  
         else if(usuario.equals("cpu")){
             simbolo = 'O';
-            posicionesCpu[cpuCont] = pos;
+            posicionesCpu1.agregarAlFinal(pos);
             cpuCont++;
             tableroCont++;
         }
@@ -202,24 +200,14 @@ public class GatoChavezMoreno{
         posiblesG.agregar(colDer1);
         posiblesG.agregar(diagonal1A);
         posiblesG.agregar(diagonal2A);
-        ListaChavezMoreno posicionesJugadorTemp = new ListaChavezMoreno();
-        ListaChavezMoreno posicionesCpuTemp = new ListaChavezMoreno();
-        ordenarBubble(1);
-        ordenarBubble(2);
-        for (int i = 0; i < posicionesJugador.length; i++) {
-            posicionesJugadorTemp.agregarAlFinal(posicionesJugador[i]);
-        }
-        for (int i = 0; i < posicionesCpu.length; i++) {
-            posicionesCpuTemp.agregarAlFinal(posicionesCpu[i]);
-        }
-
-        if((posiblesG.recorrer(posicionesJugadorTemp, jugadorCont, 1)) == 1){
+        
+        if((posiblesG.recorrer(posicionesJugador1, jugadorCont, 1)) == 1){
 
             JOptionPane.showMessageDialog(null, "El jugador ha ganado la ronda","Gato - Jugador ganó.", JOptionPane.INFORMATION_MESSAGE);
             puntosJ++;
             aTemp = true;
             finalizar = 1;
-        } else if((posiblesG.recorrer(posicionesCpuTemp, cpuCont, 2)) == 2){
+        } else if((posiblesG.recorrer(posicionesCpu1, cpuCont, 2)) == 2){
             JOptionPane.showMessageDialog(null, "El cpu ha ganado la ronda","Gato - Cpu ganó.", JOptionPane.INFORMATION_MESSAGE);
             puntosC++;
             aTemp = true;
@@ -229,7 +217,6 @@ public class GatoChavezMoreno{
             aTemp = true;
             finalizar = 1;
         }
-        
         return aTemp;
     }
     public static void limpiar(){
@@ -265,44 +252,8 @@ public class GatoChavezMoreno{
         diagonal1A = new ListaChavezMoreno();
         diagonal2A = new ListaChavezMoreno();
         filaTop1 = new ListaChavezMoreno();
-        for (int i = 0; i < posicionesCpu.length; i++) {
-            posicionesJugador[i] = 0;
-        }
-        
-        for (int i = 0; i < posicionesCpu.length; i++) {
-            posicionesCpu[i] = 0;
-        }
-        
     }
-    public static void ordenarBubble(int n){
-        int aux = 0;
-        if(n == 1){
-            for (int i = 2; i < posicionesJugador.length ; i++) {
-                for (int j = posicionesJugador.length; j < i; j++) {
-                    if(posicionesJugador[j-i]> posicionesJugador[j]){
-                        aux = posicionesJugador[j-i];
-                        posicionesJugador[j-i] = posicionesJugador[j]
-                        posicionesJugador[j] = aux;
-                    }
-                    
-                }
-            }
-        } else {
-            for (int i = 2; i < posicionesCpu.length ; i++) {
-                for (int j = posicionesCpu.length; j < i; j++) {
-                    if(posicionesCpu[j-i]> posicionesCpu[j]){
-                        aux = posicionesCpu[j-i];
-                        posicionesCpu[j-i] = posicionesCpu[j]
-                        posicionesCpu[j] = aux;
-                    }
-                    
-                }
-            }
-        }
-
-        for (int i = 0; i < posicionesJugador.length ; i++) {
-            System.out.println(i);
-        }
-
+    public static void validaA(){
+    
     }
 }
