@@ -23,18 +23,24 @@ public class GatoChavezMoreno{
     static ListaChavezMoreno diagonal1A = new ListaChavezMoreno();
     static ListaChavezMoreno diagonal2A = new ListaChavezMoreno();
     static ListaChavezMoreno posiblesG = new ListaChavezMoreno();
-    static int jugadorCont = 0;
-    static int cpuCont = 0;
+    //Variables de puntuaciones
+    static int puntosCantidad[] = new int[50];
+    static String puntosNombre[] = new String[50];
+    static int contPuntos = 0;
     static int puntosJ = 0;
     static int puntosC = 0;
+    static String nom = "";
+    //Variables para controlar
+    static int jugadorCont = 0;
+    static int cpuCont = 0;
+    static boolean corriendo = true;
+    static boolean aTemp = false;
     static int finalizar = 0;
     static int tableroCont = 0;
     static int ganador = 0;
-    static String nom = "";
     static int menu = 0;
     static ArbolChavezMoreno arbol = new ArbolChavezMoreno();
-    static boolean corriendo = true;
-    static boolean aTemp = false;
+    //Variables útiles
     static JFrame frame = new JFrame("Juego de Gato");
     static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
@@ -59,6 +65,7 @@ public class GatoChavezMoreno{
                 case "Ver puntuaciones / Guardar puntuaciones":
                     JOptionPane.showMessageDialog(null, "Puntuaciones impresas en consola","Gato - Puntuaciones.", JOptionPane.INFORMATION_MESSAGE);
                     arbol.insertar(puntosJ, nom);
+                    addPuntosBubble();
                     System.out.println("Puntuaciones: ");
                     arbol.inOrder(arbol.raiz);
                     
@@ -86,8 +93,6 @@ public class GatoChavezMoreno{
                                  {' ', '|', ' ', '|', ' '}};
         imprimirTablero(tableroJuego);
         while (finalizar != 1) {
-            Scanner sc = new Scanner(System.in);
-
             int posJugador = ingresarJugador();
 
             while(posicionesJugador1.buscar(posJugador)|| posicionesCpu1.buscar(posJugador)){
@@ -253,7 +258,34 @@ public class GatoChavezMoreno{
         diagonal2A = new ListaChavezMoreno();
         filaTop1 = new ListaChavezMoreno();
     }
-    public static void validaA(){
-    
+    //Añade puntuaciones a un arreglo y los ordena por el método de bubble
+    public static void addPuntosBubble(){
+        puntosCantidad[contPuntos] = puntosJ;
+        puntosNombre[contPuntos] = nom;
+        contPuntos++;
+        /* System.out.println("Así esta el arreglo antes de ordenarlo");
+        for (int i = 0; i < contPuntos; i++) {
+            System.out.println(puntosCantidad[i]);
+        } */
+        //Ordenamiento bubble
+        String auxString = new String();
+        int aux = 0;
+        for (int i = 0; i < contPuntos-1; i++) {
+            for (int j = 0; j < contPuntos-1; j++) {
+                if (puntosCantidad[j] > puntosCantidad[j+1]) {
+                    auxString = puntosNombre[j];
+                    aux = puntosCantidad[j];
+                    puntosCantidad[j] = puntosCantidad[j+1];
+                    puntosNombre[j] = puntosNombre[j+1];
+                    puntosCantidad[j+1] = aux;
+                    puntosNombre[j+1] = auxString;
+                }
+            }
+        }
+      /*   System.out.println("Así quedó el arreglo después de ordenarlo");
+        for (int i = 0; i < contPuntos; i++) {
+            System.out.println(puntosCantidad[i]);
+        }
+         */
     }
 }
