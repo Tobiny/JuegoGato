@@ -301,5 +301,9 @@ public class GatoChavezMoreno{
             }
         }
 
+        for (int i = 0; i < posicionesJugador.length ; i++) {
+            System.out.println(i);
+        }
+
     }
 }
