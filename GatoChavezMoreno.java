@@ -31,6 +31,7 @@ public class GatoChavezMoreno{
     static int puntosC = 0;
     static String nom = "";
     //Variables para controlar
+    static int variableDeBusqueda = 0;
     static int jugadorCont = 0;
     static int cpuCont = 0;
     static boolean corriendo = true;
@@ -67,11 +68,12 @@ public class GatoChavezMoreno{
                     arbol.insertar(puntosJ, nom);
                     addPuntosBubble();
                     System.out.println("Puntuaciones: ");
-                    arbol.inOrder(arbol.raiz);
+                    imprimePuntuaciones();
+                    
                     
                     break;
                 case "Buscar jugador por puntuación":
-                    variableDeBusqueda = JOptionPane.showInputDialog(null, "Ingrese los puntos a buscar: ","Gato - Busqueda", JOptionPane.INFORMATION_MESSAGE);
+                    variableDeBusqueda = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese los puntos a buscar: ","Gato - Busqueda", JOptionPane.INFORMATION_MESSAGE));
                     break;
                 case "Nuevo usuario":
                     puntosJ = 0;
@@ -290,5 +292,12 @@ public class GatoChavezMoreno{
             System.out.println(puntosCantidad[i]);
         }
          */
+    }
+    public static void imprimePuntuaciones(){
+        System.out.println("Las puntuaciones son las siguientes:");
+        System.out.printf("%-18s %-10s \n", "Nombre del jugador", "Puntos");
+        for (int i = 0; i < contPuntos; i++) {
+            System.out.printf("%-18s %-10s \n", puntosNombre[i], puntosCantidad[i]);
+        }
     }
 }
