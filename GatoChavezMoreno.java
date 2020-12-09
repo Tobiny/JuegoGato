@@ -32,21 +32,22 @@ public class GatoChavezMoreno{
     static String nom = "";
     //Variables para controlar
     static int variableDeBusqueda = 0;
-    static int jugadorCont = 0;
     static int cpuCont = 0;
+    static int jugadorCont = 0;
     static boolean corriendo = true;
     static boolean aTemp = false;
     static int finalizar = 0;
     static int tableroCont = 0;
     static int ganador = 0;
     static int menu = 0;
+    static String nombreDeBusqueda = "";
     static ArbolChavezMoreno arbol = new ArbolChavezMoreno();
     //Variables útiles
     static JFrame frame = new JFrame("Juego de Gato");
     static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
 
-        nom = JOptionPane.showInputDialog(null, "Ingrese si nombre: ","Gato - Inicio", JOptionPane.INFORMATION_MESSAGE);
+        nom = JOptionPane.showInputDialog(null, "Ingrese su nombre: ","Gato - Inicio", JOptionPane.INFORMATION_MESSAGE);
         menu();
         sc.close();
     }
@@ -54,31 +55,30 @@ public class GatoChavezMoreno{
     public static void menu(){
         
         String opc = "";
-        String[] opciones = {"Jugar partida", "Ver puntuaciones / Guardar puntuaciones", "Buscar jugador por puntuación","Nuevo usuario", "Salir" };
-        while(!opc.equals(opciones[4])){
+        String[] opciones = {"Jugar partida", "Ver puntuaciones","Buscar jugador por puntuación","Buscar jugador por nombre","Nuevo usuario", "Salir" };
+        while(!opc.equals(opciones[5])){
             limpiar();
             opc = (String) JOptionPane.showInputDialog(frame, "¿Qué desea hacer?", "Juego de Gato", JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
             switch (opc) {
-            
                 case "Jugar partida":
                     juego();
                     break;
-                case "Ver puntuaciones / Guardar puntuaciones":
-                    JOptionPane.showMessageDialog(null, "Puntuaciones impresas en consola","Gato - Puntuaciones.", JOptionPane.INFORMATION_MESSAGE);
-                    arbol.insertar(puntosJ, nom);
-                    addPuntosBubble();
-                    System.out.println("Puntuaciones: ");
+                case "Ver puntuaciones":
                     imprimePuntuaciones();
-                    
-                    
                     break;
                 case "Buscar jugador por puntuación":
                     variableDeBusqueda = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese los puntos a buscar: ","Gato - Busqueda", JOptionPane.INFORMATION_MESSAGE));
+                    busquedaBinaria();
                     break;
+                case "Buscar jugador por nombre":
+                    nombreDeBusqueda = JOptionPane.showInputDialog(null, "Ingrese los puntos a buscar: ","Gato - Busqueda", JOptionPane.INFORMATION_MESSAGE);
+                    busquedaSecuencial();
+                break;
                 case "Nuevo usuario":
                     puntosJ = 0;
                     nom = "";
                     nom = JOptionPane.showInputDialog(null, "Ingrese su nombre: ","Gato - Inicio", JOptionPane.INFORMATION_MESSAGE);
+                    contPuntos++;
                     break;
                 case "Salir":
                     JOptionPane.showMessageDialog(null, "Programa finalizado.\n"+
@@ -227,6 +227,9 @@ public class GatoChavezMoreno{
             aTemp = true;
             finalizar = 1;
         }
+        //Guarda los puntos
+        arbol.insertar(puntosJ, nom);
+        addPuntosBubble();
         return aTemp;
     }
     public static void limpiar(){
@@ -265,17 +268,17 @@ public class GatoChavezMoreno{
     }
     //Añade puntuaciones a un arreglo y los ordena por el método de bubble
     public static void addPuntosBubble(){
+        if(contPuntos == 50){
+            contPuntos = 0;
+            System.out.println("Se ha alcanzado el limite de puntuaciones guardadas; se comenzaran a borrar las más bajas");
+        }
+        System.out.println(contPuntos);
         puntosCantidad[contPuntos] = puntosJ;
         puntosNombre[contPuntos] = nom;
-        contPuntos++;
-        /* System.out.println("Así esta el arreglo antes de ordenarlo");
-        for (int i = 0; i < contPuntos; i++) {
-            System.out.println(puntosCantidad[i]);
-        } */
         //Ordenamiento bubble
         String auxString = new String();
         int aux = 0;
-        for (int i = 0; i < contPuntos-1; i++) {
+        for (int i = 0; i < contPuntos; i++) {
             for (int j = 0; j < contPuntos-1; j++) {
                 if (puntosCantidad[j] > puntosCantidad[j+1]) {
                     auxString = puntosNombre[j];
@@ -287,17 +290,65 @@ public class GatoChavezMoreno{
                 }
             }
         }
-      /*   System.out.println("Así quedó el arreglo después de ordenarlo");
-        for (int i = 0; i < contPuntos; i++) {
-            System.out.println(puntosCantidad[i]);
-        }
-         */
     }
     public static void imprimePuntuaciones(){
+        JOptionPane.showMessageDialog(null, "Puntuaciones impresas en consola","Gato - Puntuaciones.", JOptionPane.INFORMATION_MESSAGE);
         System.out.println("Las puntuaciones son las siguientes:");
-        System.out.printf("%-18s %-10s \n", "Nombre del jugador", "Puntos");
-        for (int i = 0; i < contPuntos; i++) {
-            System.out.printf("%-18s %-10s \n", puntosNombre[i], puntosCantidad[i]);
+        System.out.printf("%-25s %-10s \n", "Nombre del jugador", "Puntos");
+        int i = 0;
+        while(i != contPuntos+1){
+            System.out.printf("%-25s %-10s \n", puntosNombre[i], puntosCantidad[i]);
+            i++;
         }
+    }
+    public static void busquedaBinaria(){
+        boolean bandera = false;
+        int i = 0, izq = 0, der = contPuntos-1, centro = 0;
+        String puntos = "";
+        if(contPuntos < 1){
+            if(puntosCantidad[i] == variableDeBusqueda) bandera = true;
+        }else if(contPuntos == 1){
+            while(i < puntosCantidad.length-1 && !bandera){
+                if(puntosCantidad[i] == variableDeBusqueda) bandera = true;
+                else i++;
+            }
+        }else {
+            while(izq <= der && !bandera){
+                centro =(int) ((izq+der)/2);
+                if(variableDeBusqueda == puntosCantidad[centro]){
+                    bandera = true;
+                }else if( variableDeBusqueda > puntosCantidad[centro]){
+                    izq = centro + 1;
+                    i++;
+                } else{
+                    der = centro - 1;
+                    i++;
+                }
+            }
+        }
+        if(bandera){
+            puntos = "Se encontró un registro: "+ puntosNombre[i]+", con "+puntosCantidad[i]+" puntos.";
+        }else if(!bandera){
+            puntos = "No se encontró ningún registro";
+        }
+        JOptionPane.showMessageDialog(null, puntos,"Gato - Puntuaciones.", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public static void busquedaSecuencial(){
+        boolean bandera = false;
+        int i = 0;
+        String puntos = "";
+        while(i < puntosNombre.length-1 && !bandera){
+            if(nombreDeBusqueda.equals(puntosNombre[i])){
+                bandera = true;
+            }else{
+                i++;
+            }
+            if(bandera){
+                puntos = "Se encontró un registro: "+ puntosNombre[i]+", con "+puntosCantidad[i]+" puntos.";
+            }else if(!bandera){
+                puntos = "No se encontró ningún registro";
+            }
+        }
+        JOptionPane.showMessageDialog(null, puntos,"Gato - Puntuaciones.", JOptionPane.INFORMATION_MESSAGE);
     }
 }
