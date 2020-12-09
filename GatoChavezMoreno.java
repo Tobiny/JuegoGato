@@ -275,6 +275,7 @@ public class GatoChavezMoreno{
             System.out.println("Se ha alcanzado el limite de puntuaciones guardadas; se comenzaran a borrar las más bajas");
         }
         
+        System.out.println(contPuntos);
         puntosCantidad[contPuntos] = puntosJ;
         puntosNombre[contPuntos] = nom;
         //Ordenamiento bubble
