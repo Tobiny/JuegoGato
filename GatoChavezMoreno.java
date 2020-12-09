@@ -65,20 +65,20 @@ public class GatoChavezMoreno{
                     break;
                 case "Ver puntuaciones / Guardar puntuaciones":
                     JOptionPane.showMessageDialog(null, "Puntuaciones impresas en consola","Gato - Puntuaciones.", JOptionPane.INFORMATION_MESSAGE);
-                    arbol.insertar(puntosJ, nom);
-                    addPuntosBubble();
+                    
                     System.out.println("Puntuaciones: ");
                     imprimePuntuaciones();
                     
                     
                     break;
                 case "Buscar jugador por puntuación":
-                    variableDeBusqueda = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese los puntos a buscar: ","Gato - Busqueda", JOptionPane.INFORMATION_MESSAGE));
+                    JOptionPane.showMessageDialog(null, "Opción de proxima entrega","Gato - Busqueda", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "Nuevo usuario":
                     puntosJ = 0;
                     nom = "";
                     nom = JOptionPane.showInputDialog(null, "Ingrese su nombre: ","Gato - Inicio", JOptionPane.INFORMATION_MESSAGE);
+                    contPuntos++;
                     break;
                 case "Salir":
                     JOptionPane.showMessageDialog(null, "Programa finalizado.\n"+
@@ -227,6 +227,8 @@ public class GatoChavezMoreno{
             aTemp = true;
             finalizar = 1;
         }
+        arbol.insertar(puntosJ, nom);
+        addPuntosBubble();
         return aTemp;
     }
     public static void limpiar(){
@@ -267,7 +269,7 @@ public class GatoChavezMoreno{
     public static void addPuntosBubble(){
         puntosCantidad[contPuntos] = puntosJ;
         puntosNombre[contPuntos] = nom;
-        contPuntos++;
+        
         /* System.out.println("Así esta el arreglo antes de ordenarlo");
         for (int i = 0; i < contPuntos; i++) {
             System.out.println(puntosCantidad[i]);
@@ -295,9 +297,11 @@ public class GatoChavezMoreno{
     }
     public static void imprimePuntuaciones(){
         System.out.println("Las puntuaciones son las siguientes:");
-        System.out.printf("%-18s %-10s \n", "Nombre del jugador", "Puntos");
-        for (int i = 0; i < contPuntos; i++) {
-            System.out.printf("%-18s %-10s \n", puntosNombre[i], puntosCantidad[i]);
+        System.out.printf("%-25s %-10s \n", "Nombre del jugador", "Puntos");
+        int i = 0;
+        while(i != contPuntos+1){
+            System.out.printf("%-25s %-10s \n", puntosNombre[i], puntosCantidad[i]);
+            i++;
         }
     }
 }
